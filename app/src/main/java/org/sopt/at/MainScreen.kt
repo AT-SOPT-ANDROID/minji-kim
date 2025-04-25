@@ -5,10 +5,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
+import org.sopt.at.viewmodel.HomeViewModel
 
 
 @Composable
@@ -23,21 +25,16 @@ fun MainScreen() {
             startDestination = BottomNavItem.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("home") { HomeScreen() }
+            composable("home") {
+                HomeScreen(navController = navController)}
             composable("shorts") { ShortsScreen() }
             composable("live") { LiveScreen() }
             composable("search") { SearchScreen() }
             composable("history") { HistoryScreen() }
+            composable("my") { MyScreen(navController) }
 
         }
 
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview6() {
-    ATSOPTANDROIDTheme {
-        Greeting2("Android")
-    }
-}

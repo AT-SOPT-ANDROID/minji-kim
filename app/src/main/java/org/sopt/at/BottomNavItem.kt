@@ -22,7 +22,7 @@ import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
 
 sealed class BottomNavItem(val title: String, val icon: ImageVector, val route: String) {
     object Home : BottomNavItem("HOME", Icons.Default.Home, "home")
-    object Shorts : BottomNavItem("Shorts", Icons.Default.PlayArrow, "shorts")
+    object Shorts : BottomNavItem("SHORTS", Icons.Default.PlayArrow, "shorts")
     object Live : BottomNavItem("LIVE", Icons.Default.LiveTv, "live")
     object Search : BottomNavItem("SEARCH", Icons.Default.Search, "search")
     object History : BottomNavItem("HISTORY", Icons.Default.History, "history")

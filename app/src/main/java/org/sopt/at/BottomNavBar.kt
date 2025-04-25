@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
@@ -23,7 +24,9 @@ fun BottomNavBar(navController: NavController) {
         )
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = Color.Black
+    ) {
         items.forEach { item ->
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.title) },
@@ -44,10 +47,3 @@ fun BottomNavBar(navController: NavController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview5() {
-    ATSOPTANDROIDTheme {
-        Greeting2("Android")
-    }
-}

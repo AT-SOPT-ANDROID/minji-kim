@@ -38,13 +38,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import org.sopt.at.model.Top20
 import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
-
+import org.sopt.at.viewmodel.HomeViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavController,) {
     val context = LocalContext.current
     
     Box(
@@ -52,7 +55,6 @@ fun HomeScreen() {
             .fillMaxSize()
             .background(Color.Black)
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,9 +85,7 @@ fun HomeScreen() {
                     modifier = Modifier
                         .height(22.dp)
                         .clickable {
-                            val intent = Intent(context, MyActivity::class.java)
-                            context.startActivity(intent)
-
+                            navController.navigate("my")
                         }
 
                 )
@@ -99,14 +99,14 @@ fun HomeScreen() {
         ) {
             item{
                 Spacer(modifier = Modifier.height(4.dp))
-                Genre()
+                Genre(viewModel.genres)
 
 
             }
 
             item{
                 Spacer(modifier = Modifier.height(10.dp))
-                Banner()
+                Banner(viewModel.banners)
             }
             item {
                 Spacer(modifier = Modifier.height(18.dp))
@@ -119,7 +119,7 @@ fun HomeScreen() {
             }
             item{
                 Spacer(modifier = Modifier.height(8.dp))
-                TodayTop()
+                TodayTop(viewModel.topList)
 
             }
             item {
@@ -133,7 +133,7 @@ fun HomeScreen() {
             }
             item{
                 Spacer(modifier = Modifier.height(8.dp))
-                ContentsNow()
+                ContentsNow(viewModel.contentsList)
             }
 
         }
@@ -141,10 +141,7 @@ fun HomeScreen() {
 }
 
 @Composable
-fun Genre() {
-    val genres = listOf(
-        "DRAMA", "VARIETY", "MOVIE", "SPORTS", "ANIMATION"
-    )
+fun Genre(genres: List<String>) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 1.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp)
@@ -161,12 +158,7 @@ fun Genre() {
     }
 }
 @Composable
-fun Banner() {
-    val banners = listOf(
-        R.drawable.banner1,
-        R.drawable.banner1,
-        R.drawable.banner1
-    )
+fun Banner(banners: List<Int>) {
 
     LazyRow(
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -185,22 +177,10 @@ fun Banner() {
         }
     }
 }
-data class Top20(
-    val rank: Int,
-    val imageId: Int
-)
 
 @Composable
-fun TodayTop() {
-    val topList = listOf(
-        Top20(1, R.drawable.top1),
-        Top20(2, R.drawable.top2),
-        Top20(3, R.drawable.top2),
-        Top20(4, R.drawable.top1),
-        Top20(5, R.drawable.top1),
-        Top20(6, R.drawable.top1),
-        Top20(7, R.drawable.top1),
-    )
+fun TodayTop(topList: List<Top20>) {
+
     LazyRow(
         contentPadding = PaddingValues(horizontal = 15.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -230,15 +210,8 @@ fun TodayTop() {
 }
 
 @Composable
-fun ContentsNow() {
-    val contentsList = listOf(
-        R.drawable.now1,
-        R.drawable.now2,
-        R.drawable.now3,
-        R.drawable.now1,
-        R.drawable.now1,
-        R.drawable.now1,
-    )
+fun ContentsNow(contentsList: List<Int>) {
+
     LazyRow(
         contentPadding = PaddingValues(horizontal = 15.dp),
         horizontalArrangement = Arrangement.spacedBy(9.dp),
@@ -258,10 +231,4 @@ fun ContentsNow() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    ATSOPTANDROIDTheme {
-        HomeScreen()
-    }
-}
+
