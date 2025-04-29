@@ -1,6 +1,7 @@
 package org.sopt.at
 
 import android.content.Intent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -27,6 +28,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
@@ -45,7 +47,7 @@ import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
 import org.sopt.at.viewmodel.HomeViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavController,) {
     val context = LocalContext.current
@@ -87,7 +89,6 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
                         .clickable {
                             navController.navigate("my")
                         }
-
                 )
             }
         }
@@ -97,16 +98,39 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
                 .padding(top = 56.dp)
                 .background(Color.Black)
         ) {
-            item{
-                Spacer(modifier = Modifier.height(4.dp))
-                Genre(viewModel.genres)
-
+            stickyHeader {
+                Row {
+                    viewModel.genres.forEach {genre ->
+                        Text(
+                            text = genre,
+                            modifier = Modifier
+                                .clickable { viewModel.onGenreSelected(genre)}
+                                .padding(8.dp),
+                            color = if (genre == viewModel.selectedGenre) Color.Red else Color.White
+                        )
+                    }
+                }
 
             }
-
-            item{
-                Spacer(modifier = Modifier.height(10.dp))
-                Banner(viewModel.banners)
+            item {
+                Spacer(modifier = Modifier.height(5.dp))
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                ) {
+                    items(viewModel.currentContents ?: emptyList()) { imageId ->
+                        Image(
+                            painter = painterResource(id = imageId),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(365.dp)
+                                .height(440.dp)
+                                .padding(horizontal = 5.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                        )
+                    }
+                }
             }
             item {
                 Spacer(modifier = Modifier.height(18.dp))

@@ -1,11 +1,30 @@
 package org.sopt.at.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import org.sopt.at.R
 import org.sopt.at.model.Top20
 
 class HomeViewModel : ViewModel() {
     val genres = listOf("DRAMA", "VARIETY", "MOVIE", "SPORTS", "ANIMATION")
+
+    var selectedGenre by mutableStateOf(genres.first())
+
+    val genreContentMap = mapOf(
+        "DRAMA" to listOf(R.drawable.banner1, R.drawable.banner1),
+        "VARIETY" to listOf(R.drawable.variety, R.drawable.variety),
+        "MOVIE" to listOf(R.drawable.movie, R.drawable.movie),
+        "SPORTS" to listOf(R.drawable.sports1, R.drawable.sports1),
+        "ANIMATION" to listOf(R.drawable.animation, R.drawable.animation)
+    )
+    val currentContents: List<Int>?
+       get() = genreContentMap[selectedGenre]
+
+    fun onGenreSelected(genre: String) {
+        selectedGenre = genre
+    }
 
     val banners = listOf(
         R.drawable.banner1,
