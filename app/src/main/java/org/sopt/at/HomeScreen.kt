@@ -55,7 +55,6 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
     val context = LocalContext.current
     val topList = remember { viewModel.topList }
     val contentsList = remember { viewModel.contentsList }
-    val onGenreSelected = rememberUpdatedState(viewModel::onGenreSelected)
     
     Box(
         modifier = Modifier

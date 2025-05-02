@@ -13,6 +13,12 @@ class HomeViewModel : ViewModel() {
 
     var selectedGenre by mutableStateOf(genres.first())
 
+    val currentContents by derivedStateOf {
+        genreContentMap[selectedGenre] ?: emptyList()
+    }
+    fun onGenreSelected(genre: String) {
+        selectedGenre = genre
+    }
     val genreContentMap = mapOf(
         "DRAMA" to listOf(R.drawable.banner1, R.drawable.banner1),
         "VARIETY" to listOf(R.drawable.variety, R.drawable.variety),
@@ -20,12 +26,6 @@ class HomeViewModel : ViewModel() {
         "SPORTS" to listOf(R.drawable.sports1, R.drawable.sports1),
         "ANIMATION" to listOf(R.drawable.animation, R.drawable.animation)
     )
-    val currentContents by derivedStateOf {
-        genreContentMap[selectedGenre] ?: emptyList()
-    }
-    fun onGenreSelected(genre: String) {
-        selectedGenre = genre
-    }
 
     val topList = listOf(
         Top20(1, R.drawable.top1),
