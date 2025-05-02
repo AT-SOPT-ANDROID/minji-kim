@@ -30,6 +30,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Modifier
@@ -49,8 +51,11 @@ import org.sopt.at.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavController,) {
+fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavController) {
     val context = LocalContext.current
+    val topList = remember { viewModel.topList }
+    val contentsList = remember { viewModel.contentsList }
+    val onGenreSelected = rememberUpdatedState(viewModel::onGenreSelected)
     
     Box(
         modifier = Modifier
@@ -143,7 +148,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
             }
             item{
                 Spacer(modifier = Modifier.height(8.dp))
-                TodayTop(viewModel.topList)
+                TodayTop(topList)
 
             }
             item {
@@ -157,7 +162,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
             }
             item{
                 Spacer(modifier = Modifier.height(8.dp))
-                ContentsNow(viewModel.contentsList)
+                ContentsNow(contentsList)
             }
 
         }

@@ -1,5 +1,6 @@
 package org.sopt.at.viewmodel
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,18 +20,12 @@ class HomeViewModel : ViewModel() {
         "SPORTS" to listOf(R.drawable.sports1, R.drawable.sports1),
         "ANIMATION" to listOf(R.drawable.animation, R.drawable.animation)
     )
-    val currentContents: List<Int>?
-       get() = genreContentMap[selectedGenre]
-
+    val currentContents by derivedStateOf {
+        genreContentMap[selectedGenre] ?: emptyList()
+    }
     fun onGenreSelected(genre: String) {
         selectedGenre = genre
     }
-
-    val banners = listOf(
-        R.drawable.banner1,
-        R.drawable.banner1,
-        R.drawable.banner1
-    )
 
     val topList = listOf(
         Top20(1, R.drawable.top1),
