@@ -119,24 +119,39 @@ fun SignUpIdScreen(
         modifier = Modifier
             .background(Color.Black)
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+
     ) {
-        Text("아이디 입력",
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = id,
-            onValueChange = onIdChange,
-            isError = isError,
-            placeholder = { Text("아이디", color = MaterialTheme.colorScheme.onSurfaceVariant) },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.bodyLarge
-        )
-        Spacer(modifier = Modifier.height(12.dp))
+        Column() {
+            Text(
+                "아이디를 입력해주세요.",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = id,
+                onValueChange = onIdChange,
+                isError = isError,
+                placeholder = { Text("아이디", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant),
+                textStyle = MaterialTheme.typography.bodyLarge
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                "영문 소문자 또는 영문 소문자, 숫자 조합 6~12 자리",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
         Button(onClick = onNext, modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)) {
-            Text("다음", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onSurfaceVariant)) {
+            Text("다음", color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
@@ -186,4 +201,16 @@ fun SignUpPwScreen(
     }
 }
 
+@Preview(showBackground = true, backgroundColor = 0xFF000000)
+@Composable
+fun PreviewSignUpIdScreen() {
+    org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme {
+        SignUpIdScreen(
+            id = "exampleId",
+            isError = false,
+            onIdChange = {},
+            onNext = {}
+        )
+    }
+}
 
