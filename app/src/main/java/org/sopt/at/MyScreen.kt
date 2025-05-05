@@ -45,7 +45,6 @@ fun MyScreen(navController: NavController) {
         )
 }
 
-
 @Composable
 fun Profile(name: String, navController: NavController) {
     val context = LocalContext.current
