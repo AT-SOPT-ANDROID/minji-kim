@@ -46,9 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import org.sopt.at.model.Top20
 import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
-import org.sopt.at.screen.ui.theme.BackgroundColor
-import org.sopt.at.screen.ui.theme.GenreSelectedColor
-import org.sopt.at.screen.ui.theme.GenreUnselectedColor
+
 import org.sopt.at.viewmodel.HomeViewModel
 
 

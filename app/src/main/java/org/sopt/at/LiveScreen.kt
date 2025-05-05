@@ -26,6 +26,6 @@ fun LiveScreen() {
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        Text("Live Screen", color = Color.White)
+        Text("Live Screen", color = MaterialTheme.colorScheme.onBackground)
     }
 }

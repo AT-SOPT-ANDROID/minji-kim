@@ -25,6 +25,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -51,25 +52,22 @@ fun Profile(name: String, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(MaterialTheme.colorScheme.background)
 
     ) {
         Icon(
             modifier = Modifier
-                .size(35.dp)
-                .clickable {
-                navController.popBackStack()
-            },
+                .size(35.dp),
             imageVector = Icons.Default.ChevronLeft,
             contentDescription = null,
-            tint = Color.White,
+            tint = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Black)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = 25.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -88,9 +86,8 @@ fun Profile(name: String, navController: NavController) {
                 Spacer(modifier = Modifier.width(18.dp))
                 Text(
                     text = name,
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleMedium
                 )
 
             }
@@ -100,12 +97,12 @@ fun Profile(name: String, navController: NavController) {
                     .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4.dp))
                     .height(35.dp)
                     .width(112.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Text(
                     "프로필 전환",
-                    color = Color(0xFFAAAAAA),
-                    fontSize = 12.sp
+                    color = MaterialTheme.colorScheme.outline,
+                    style = MaterialTheme.typography.labelSmall
                 )
 
             }
@@ -115,9 +112,7 @@ fun Profile(name: String, navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 20.dp, horizontal = 16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF1A1A1A)
-            ),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
             shape = RoundedCornerShape(5.dp)
         ) {
             Column(
@@ -131,13 +126,13 @@ fun Profile(name: String, navController: NavController) {
                 ){
                     Text(
                         text="나의 이용권",
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 14.sp
                     )
                     Text(
                         text = "사용중인 이용권이 없습니다",
-                        color = Color.White,
-                        fontSize = 14.sp
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
                 Row(
@@ -148,11 +143,11 @@ fun Profile(name: String, navController: NavController) {
                 ) {
                     Text(
                         text= "티빙캐시",
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 14.sp)
                     Text(
                         text="0",
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onSurface,
 
                         )
                 }
@@ -163,9 +158,7 @@ fun Profile(name: String, navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 13.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF1A1A1A)
-            ),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
             shape = RoundedCornerShape(5.dp)
         ) {
             Column(
@@ -185,9 +178,8 @@ fun Profile(name: String, navController: NavController) {
                         ) {
                             Text(
                                 text = "이용권을 구매하고  ",
-                                fontSize = 12.sp,
-                                color = Color.White
-                            )
+                                style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface)
+
                             Image(
                                 painter = painterResource(id = R.drawable.ic_tvn),
                                 contentDescription = null,
@@ -205,22 +197,22 @@ fun Profile(name: String, navController: NavController) {
                             )
                             Text(
                                 text=" 등 인기 시리즈와",
-                                color= Color.White,
-                                fontSize = 12.sp
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.labelSmall
                             )
 
                         }
                         Text(
                             text = "다양한 영화 콘텐츠를 자유롭게 시청하세요!",
-                            fontSize = 12.sp,
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelSmall
                         )
 
                     }
                     Icon(
                         imageVector = Icons.Default.ChevronRight,
                         contentDescription = null,
-                        tint = Color.White
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -238,9 +230,9 @@ fun Profile(name: String, navController: NavController) {
                 .padding(horizontal = 24.dp, vertical = 32.dp)
                 .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4.dp))
                 .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)
         ) {
-            Text("로그아웃", color = Color(0xFFAAAAAA))
+            Text("로그아웃", color = MaterialTheme.colorScheme.outline)
         }
     }
 }

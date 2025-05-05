@@ -27,6 +27,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -120,18 +121,22 @@ fun SignUpIdScreen(
             .fillMaxSize()
             .padding(24.dp)
     ) {
-        Text("아이디 입력", color = Color.White)
+        Text("아이디 입력",
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = id,
             onValueChange = onIdChange,
             isError = isError,
-            placeholder = { Text("아이디", color = Color.Gray) },
-            modifier = Modifier.fillMaxWidth()
+            placeholder = { Text("아이디", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onNext, modifier = Modifier.fillMaxWidth()) {
-            Text("다음")
+        Button(onClick = onNext, modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)) {
+            Text("다음", color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -151,7 +156,10 @@ fun SignUpPwScreen(
             .fillMaxSize()
             .padding(24.dp)
     ) {
-        Text("비밀번호 입력", color = Color.White)
+        Text("비밀번호 입력",
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.titleMedium
+        )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = pw,
@@ -162,16 +170,18 @@ fun SignUpPwScreen(
                 IconButton(onClick = onTogglePwVisible) {
                     Icon(
                         imageVector = if (pwVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             },
-            placeholder = { Text("비밀번호", color = Color.Gray) },
-            modifier = Modifier.fillMaxWidth()
+            placeholder = { Text("비밀번호", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(12.dp))
         Button(onClick = onComplete, modifier = Modifier.fillMaxWidth()) {
-            Text("회원가입 완료")
+            Text("회원가입 완료", color = MaterialTheme.colorScheme.onPrimary)
         }
     }
 }

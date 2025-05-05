@@ -26,6 +26,6 @@ fun HistoryScreen() {
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        Text("History Screen", color = Color.White)
+        Text("History Screen", color = MaterialTheme.colorScheme.onBackground)
     }
 }
