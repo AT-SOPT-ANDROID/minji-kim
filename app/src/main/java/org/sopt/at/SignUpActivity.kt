@@ -180,7 +180,7 @@ fun SignUpPwScreen(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(
                 value = pw,
                 onValueChange = onPwChange,
@@ -201,8 +201,16 @@ fun SignUpPwScreen(
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onComplete, modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onSurfaceVariant)) {
+        Button(onClick = onComplete,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(4.dp)
+                ),
+            shape = RoundedCornerShape(4.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)) {
             Text("회원가입 완료", color = MaterialTheme.colorScheme.onSurface)
         }
     }
