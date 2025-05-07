@@ -169,34 +169,41 @@ fun SignUpPwScreen(
         modifier = Modifier
             .background(Color.Black)
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("비밀번호 입력",
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = pw,
-            onValueChange = onPwChange,
-            isError = isError,
-            visualTransformation = if (pwVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                IconButton(onClick = onTogglePwVisible) {
-                    Icon(
-                        imageVector = if (pwVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            },
-            placeholder = { Text("비밀번호", color = MaterialTheme.colorScheme.onSurfaceVariant) },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.bodyLarge
-        )
+        Column() {
+            Text(
+                "비밀번호를 입력해주세요.",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = pw,
+                onValueChange = onPwChange,
+                isError = isError,
+                visualTransformation = if (pwVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = onTogglePwVisible) {
+                        Icon(
+                            imageVector = if (pwVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                },
+                placeholder = { Text("비밀번호", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = MaterialTheme.typography.bodyLarge
+            )
+        }
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onComplete, modifier = Modifier.fillMaxWidth()) {
-            Text("회원가입 완료", color = MaterialTheme.colorScheme.onPrimary)
+        Button(onClick = onComplete, modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onSurfaceVariant)) {
+            Text("회원가입 완료", color = MaterialTheme.colorScheme.onSurface)
         }
     }
 }
@@ -205,11 +212,13 @@ fun SignUpPwScreen(
 @Composable
 fun PreviewSignUpIdScreen() {
     org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme {
-        SignUpIdScreen(
-            id = "exampleId",
+        SignUpPwScreen(
+            pw = "exampleId",
             isError = false,
-            onIdChange = {},
-            onNext = {}
+            pwVisible = false,
+            onPwChange = {},
+            onTogglePwVisible = {},
+            onComplete = {}
         )
     }
 }
