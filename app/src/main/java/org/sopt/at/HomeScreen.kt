@@ -101,7 +101,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(), navController: NavControl
                 .background(MaterialTheme.colorScheme.background)
         ) {
             stickyHeader {
-                Row {
+                Row(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                ) {
                     viewModel.genres.forEach {genre ->
                         Text(
                             text = genre,
@@ -111,14 +114,16 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(), navController: NavControl
                             else
                                 MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
+                                .padding(end = 16.dp)
                                 .clickable { viewModel.onGenreSelected(genre) }
                         )
                     }
                 }
 
             }
+
             item {
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -184,7 +189,7 @@ fun TodayTop(topList: List<Top20>) {
             ) {
                 Text(
                     text = topItem.rank.toString(),
-                    style = MaterialTheme.typography.headlineLarge,
+                    fontSize = 50.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )

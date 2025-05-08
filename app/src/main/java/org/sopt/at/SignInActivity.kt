@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
 import org.sopt.at.viewmodel.SignInViewModel
+import org.sopt.at.viewmodel.SignUpViewModel
 
 class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,9 +65,10 @@ class SignInActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ATSOPTANDROIDTheme {
-                val viewModel: SignInViewModel = viewModel()
+                val signInViewModel: SignInViewModel = viewModel()
+                val signUpViewModel: SignUpViewModel = viewModel()
                 Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                    Tving(viewModel = viewModel, modifier = Modifier.padding(padding))
+                    Tving(signInViewModel = signInViewModel, signUpViewModel = signUpViewModel, modifier = Modifier.padding(padding))
                 }
             }
         }
@@ -75,25 +77,18 @@ class SignInActivity : ComponentActivity() {
 
 
 @Composable
-fun Tving(viewModel: SignInViewModel = viewModel(), modifier: Modifier) {
+fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignUpViewModel = viewModel(),  modifier: Modifier) {
     val context = LocalContext.current
-    val loginId = viewModel.loginId
-    val loginPw = viewModel.loginPw
-    val loginSuccess = viewModel.loginSuccess
+    val loginId = signInViewModel.loginId
+    val loginPw = signInViewModel.loginPw
+    val loginSuccess = signInViewModel.loginSuccess
     var pwVisible by remember { mutableStateOf(false) }
+    val nickName = signUpViewModel.nickName
 
-    val signUpLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.applySignUpResult(result.data)
-            Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
-        }
-    }
     LaunchedEffect(loginSuccess) {
         if (loginSuccess) {
             val intent = Intent(context, MyActivity::class.java)
-            intent.putExtra("id", loginId)
+            intent.putExtra("nickName", nickName)
             context.startActivity(intent)
         }
     }
@@ -130,7 +125,7 @@ fun Tving(viewModel: SignInViewModel = viewModel(), modifier: Modifier) {
 
         TextField(
             value = loginId,
-            onValueChange = { viewModel.loginId = it },
+            onValueChange = { signInViewModel.loginId = it },
             placeholder = { Text("아이디", color = Color(0xFFAAAAAA)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
@@ -144,7 +139,7 @@ fun Tving(viewModel: SignInViewModel = viewModel(), modifier: Modifier) {
         Spacer(modifier = Modifier.height(13.dp))
         TextField(
             value = loginPw,
-            onValueChange = { viewModel.loginPw = it },
+            onValueChange = { signInViewModel.loginPw = it },
             visualTransformation = if (pwVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 val icon = if (pwVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
@@ -166,7 +161,7 @@ fun Tving(viewModel: SignInViewModel = viewModel(), modifier: Modifier) {
         Spacer(modifier = Modifier.height(22.dp))
 
         Button(
-            onClick = { viewModel.checkLogin(context) },
+            onClick = { signInViewModel.signIn(context) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(46.dp),
@@ -213,8 +208,7 @@ fun Tving(viewModel: SignInViewModel = viewModel(), modifier: Modifier) {
                 ))
             Spacer(modifier = Modifier.width(10.dp))
             Text("회원가입", color = Color.LightGray, modifier = Modifier.clickable {
-                val intent = Intent(context, SignUpActivity::class.java)
-                signUpLauncher.launch(intent)
+                context.startActivity(Intent(context, SignUpActivity::class.java))
             })
         }
         Spacer(modifier = Modifier.height(25.dp))

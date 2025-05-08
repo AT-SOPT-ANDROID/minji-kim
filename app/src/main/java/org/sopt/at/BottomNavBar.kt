@@ -20,7 +20,7 @@ fun BottomNavBar(navController: NavController) {
         BottomNavItem.Shorts,
         BottomNavItem.Live,
         BottomNavItem.Search,
-        BottomNavItem.History
+        BottomNavItem.History,
         )
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 

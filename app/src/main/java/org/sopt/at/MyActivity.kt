@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -43,18 +44,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
 
 class MyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val id = intent.getStringExtra("id") ?: "티빙"
+        val nickname = intent.getStringExtra("nickName") ?: "티빙"
         enableEdgeToEdge()
         setContent {
             ATSOPTANDROIDTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Profile(
-                        name = id,
+                        name = nickname,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -63,12 +65,11 @@ class MyActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
-fun Profile(name: String, modifier: Modifier = Modifier) {
+fun Profile(name: String, modifier: Modifier) {
     val context = LocalContext.current
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
 
@@ -79,7 +80,7 @@ fun Profile(name: String, modifier: Modifier = Modifier) {
             imageVector = Icons.Default.ChevronLeft,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground,
-            )
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -130,7 +131,8 @@ fun Profile(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 20.dp, horizontal = 16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
             shape = RoundedCornerShape(5.dp)
         ) {
             Column(
@@ -167,7 +169,7 @@ fun Profile(name: String, modifier: Modifier = Modifier) {
                         text="0",
                         color = MaterialTheme.colorScheme.onSurface,
 
-                    )
+                        )
                 }
 
             }
@@ -176,8 +178,9 @@ fun Profile(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 13.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-            shape = RoundedCornerShape(5.dp)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+            shape = RoundedCornerShape(5.dp),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         ) {
             Column(
                 modifier = Modifier
@@ -249,15 +252,8 @@ fun Profile(name: String, modifier: Modifier = Modifier) {
                 .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4.dp))
                 .height(48.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)
-            ) {
+        ) {
             Text("로그아웃", color = MaterialTheme.colorScheme.outline)
         }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview4() {
-    ATSOPTANDROIDTheme {
-        Profile(name = "ds")
     }
 }

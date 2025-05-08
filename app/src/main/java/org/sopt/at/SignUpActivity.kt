@@ -102,7 +102,27 @@ fun SignUp(viewModel: SignUpViewModel = viewModel(), modifier: Modifier = Modifi
                 pwVisible = viewModel.pwVisible,
                 onPwChange = { viewModel.pw = it },
                 onTogglePwVisible = { viewModel.pwVisible = !viewModel.pwVisible },
-                onComplete = { viewModel.finishSignUp(context) }
+                onNext2 = {
+                    if (!viewModel.validatePw()) {
+                        Toast.makeText(context, "비밀번호 조건에 맞지 않습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.goToNickName()
+                    }
+                }
+            )
+        }
+        SignUpScreenState.NICKNAME -> {
+            SignUpNickname(
+                nickName = viewModel.nickName,
+                isError = viewModel.isNickNameError,
+                onNickNameChange = { viewModel.nickName = it },
+                onComplete = {
+                    if (!viewModel.validateNickName()) {
+                        Toast.makeText(context, "닉네임 조건에 맞지 않습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.finishSignUp(context)
+                    }
+                }
             )
         }
     }
@@ -163,7 +183,7 @@ fun SignUpPwScreen(
     pwVisible: Boolean,
     onPwChange: (String) -> Unit,
     onTogglePwVisible: () -> Unit,
-    onComplete: () -> Unit
+    onNext2: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -201,7 +221,7 @@ fun SignUpPwScreen(
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onComplete,
+        Button(onClick = onNext2,
             modifier = Modifier
                 .fillMaxWidth()
                 .border(
@@ -215,7 +235,56 @@ fun SignUpPwScreen(
         }
     }
 }
+@Composable
+fun SignUpNickname(
+    nickName: String,
+    isError: Boolean,
+    onNickNameChange: (String) -> Unit,
+    onComplete: () -> Unit
+){
+    Column(
+        modifier = Modifier
+            .background(Color.Black)
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column() {
+            Text(
+                "닉네임을 입력해주세요.",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            OutlinedTextField(
+                value = nickName,
+                onValueChange = onNickNameChange,
+                isError = isError,
+                placeholder = { Text("닉네임", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textStyle = MaterialTheme.typography.bodyLarge
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Button(onClick = onComplete,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(4.dp)
+                ),
+            shape = RoundedCornerShape(4.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)) {
+            Text("회원가입 완료", color = MaterialTheme.colorScheme.onSurface)
+        }
+    }
 
+
+}
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun PreviewSignUpIdScreen() {
@@ -226,7 +295,7 @@ fun PreviewSignUpIdScreen() {
             pwVisible = false,
             onPwChange = {},
             onTogglePwVisible = {},
-            onComplete = {}
+            onNext2 = {}
         )
     }
 }

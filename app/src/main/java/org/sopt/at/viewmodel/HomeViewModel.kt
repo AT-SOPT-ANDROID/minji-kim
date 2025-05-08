@@ -16,9 +16,11 @@ class HomeViewModel : ViewModel() {
     val currentContents by derivedStateOf {
         genreContentMap[selectedGenre] ?: emptyList()
     }
+
     fun onGenreSelected(genre: String) {
         selectedGenre = genre
     }
+
     val genreContentMap = mapOf(
         "DRAMA" to listOf(R.drawable.banner1, R.drawable.banner1),
         "VARIETY" to listOf(R.drawable.variety, R.drawable.variety),

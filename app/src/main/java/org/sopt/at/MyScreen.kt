@@ -1,6 +1,7 @@
 package org.sopt.at
 
 import android.content.Intent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -59,7 +60,10 @@ fun Profile(name: String, navController: NavController) {
     ) {
         Icon(
             modifier = Modifier
-                .size(35.dp),
+                .size(35.dp)
+                .clickable{
+                    navController.navigate("home")
+                },
             imageVector = Icons.Default.ChevronLeft,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground,
@@ -114,7 +118,8 @@ fun Profile(name: String, navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 20.dp, horizontal = 16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
             shape = RoundedCornerShape(5.dp)
         ) {
             Column(
@@ -159,9 +164,10 @@ fun Profile(name: String, navController: NavController) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 13.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-            shape = RoundedCornerShape(5.dp)
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+            shape = RoundedCornerShape(5.dp),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         ) {
             Column(
                 modifier = Modifier
@@ -187,7 +193,7 @@ fun Profile(name: String, navController: NavController) {
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(37.dp)
-                                    .background(Color(0xFF1A1A1A))
+                                    .background(Color.Black)
                             )
                             Spacer(modifier = Modifier.width(5.dp))
                             Image(
@@ -202,14 +208,12 @@ fun Profile(name: String, navController: NavController) {
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.labelSmall
                             )
-
                         }
                         Text(
                             text = "다양한 영화 콘텐츠를 자유롭게 시청하세요!",
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.labelSmall
                         )
-
                     }
                     Icon(
                         imageVector = Icons.Default.ChevronRight,
