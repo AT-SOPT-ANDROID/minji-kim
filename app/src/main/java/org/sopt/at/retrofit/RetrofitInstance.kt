@@ -15,4 +15,12 @@ object RetrofitInstance {
             .build()
             .create(AuthService::class.java)
     }
+    val userService: UserService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(UserService::class.java)
+
+    }
 }
