@@ -35,7 +35,7 @@ class SignUpViewModel : ViewModel() {
 
     fun validateId(): Boolean {
         val isLowerOrNum = id.all { it.isLowerCase() || it.isDigit() }
-        val validLength = id.length in 6..12
+        val validLength = id.length in 8..20
         isIdError = !(isLowerOrNum && validLength)
         return !isIdError
     }
@@ -110,6 +110,7 @@ class SignUpViewModel : ViewModel() {
                             if (body?.success == true) {
                                 Toast.makeText(context, "회원가입 성공!", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(context, SignInActivity::class.java)
+                                intent.putExtra("nickname", nickName)
                                 context.startActivity(intent)
                             } else {
                                 Toast.makeText(

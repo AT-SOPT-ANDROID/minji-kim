@@ -2,6 +2,7 @@ package org.sopt.at
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -55,6 +56,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
 import org.sopt.at.viewmodel.SignInViewModel
 import org.sopt.at.viewmodel.SignUpViewModel
@@ -67,8 +70,14 @@ class SignInActivity : ComponentActivity() {
             ATSOPTANDROIDTheme {
                 val signInViewModel: SignInViewModel = viewModel()
                 val signUpViewModel: SignUpViewModel = viewModel()
+                val navController = rememberNavController()
+                val nickname = intent.getStringExtra("nickname") ?: "티빙"
                 Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                    Tving(signInViewModel = signInViewModel, signUpViewModel = signUpViewModel, modifier = Modifier.padding(padding))
+                    Tving(signInViewModel = signInViewModel,
+                        signUpViewModel = signUpViewModel,
+                        navController = navController,
+                        nickname= nickname,
+                        modifier = Modifier.padding(padding))
                 }
             }
         }
@@ -77,7 +86,7 @@ class SignInActivity : ComponentActivity() {
 
 
 @Composable
-fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignUpViewModel = viewModel(),  modifier: Modifier) {
+fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignUpViewModel = viewModel(), navController: NavController, nickname: String, modifier: Modifier) {
     val context = LocalContext.current
     val loginId = signInViewModel.loginId
     val loginPw = signInViewModel.loginPw
@@ -87,11 +96,10 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
 
     LaunchedEffect(loginSuccess) {
         if (loginSuccess) {
-            val intent = Intent(context, MyActivity::class.java)
-            intent.putExtra("nickName", nickName)
-            context.startActivity(intent)
+            navController.navigate("my/${Uri.encode(nickName)}")
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -161,7 +169,12 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
         Spacer(modifier = Modifier.height(22.dp))
 
         Button(
-            onClick = { signInViewModel.signIn(context) },
+            onClick = {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("nickname", nickname)
+                context.startActivity(intent)
+                if (context is Activity) context.finish()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(46.dp),

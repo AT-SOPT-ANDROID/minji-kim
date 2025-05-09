@@ -1,5 +1,6 @@
 package org.sopt.at
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -29,28 +30,33 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
 
-@Composable
-fun MyScreen(navController: NavController) {
-        Profile(
-            name = "티빙",
-            navController = navController
-        )
-}
 
 @Composable
-fun Profile(name: String, navController: NavController) {
+fun MyScreen(navController: NavController, nickname: String) {
+    val context = LocalContext.current
+
+    Profile(nickname = nickname, navController = navController)
+}
+
+
+@Composable
+fun Profile(nickname: String, navController: NavController) {
     val context = LocalContext.current
     Column(
         modifier = Modifier
@@ -91,11 +97,10 @@ fun Profile(name: String, navController: NavController) {
                 )
                 Spacer(modifier = Modifier.width(18.dp))
                 Text(
-                    text = name,
+                    text = nickname,
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleMedium
                 )
-
             }
             Button(
                 onClick = {},
@@ -110,9 +115,7 @@ fun Profile(name: String, navController: NavController) {
                     color = MaterialTheme.colorScheme.outline,
                     style = MaterialTheme.typography.labelSmall
                 )
-
             }
-
         }
         Card(
             modifier = Modifier
@@ -229,7 +232,6 @@ fun Profile(name: String, navController: NavController) {
             onClick ={
                 val intent = Intent(context, SignInActivity::class.java)
                 context.startActivity(intent)
-
             },
             modifier = Modifier
                 .fillMaxWidth()

@@ -1,14 +1,19 @@
 package org.sopt.at.viewmodel
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import org.sopt.at.MainActivity
 import org.sopt.at.model.SignInRequest
 import org.sopt.at.model.SignInResponse
+import org.sopt.at.model.UserInfoResponse
 import org.sopt.at.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,26 +24,26 @@ class SignInViewModel : ViewModel() {
     var loginPw by mutableStateOf("")
     var loginSuccess by mutableStateOf(false)
 
-    fun signIn(context: Context) {
+
+    fun signIn(context: Context, nickname: String) {
         val request = SignInRequest(loginId, loginPw)
 
         RetrofitInstance.authService.signIn(request)
             .enqueue(object : Callback<SignInResponse> {
-                override fun onResponse(
-                    call: Call<SignInResponse>,
-                    response: Response<SignInResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val body = response.body()
-                        if (body?.success == true) {
-                            loginSuccess = true
-                            Toast.makeText(context, "로그인 성공!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, body?.message ?: "로그인 실패", Toast.LENGTH_SHORT).show()
+                override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val userId = response.body()?.data?.userId
+                        if (userId != null) {
+                            val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+                            prefs.edit().putInt("userId", userId).apply()
+
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.putExtra("nickname", nickname)
+                            context.startActivity(intent)
+                            if (context is Activity) context.finish()
                         }
-                    } else {
-                        Toast.makeText(context, "HTTP 오류: ${response.code()}", Toast.LENGTH_SHORT).show()
                     }
+
                 }
 
                 override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
@@ -46,4 +51,6 @@ class SignInViewModel : ViewModel() {
                 }
             })
     }
-}
+
+
+    }
