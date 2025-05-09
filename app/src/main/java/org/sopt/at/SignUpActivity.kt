@@ -55,7 +55,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
+import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
 import org.sopt.at.viewmodel.SignUpScreenState
 import org.sopt.at.viewmodel.SignUpViewModel
 
@@ -159,7 +159,7 @@ fun SignUpIdScreen(
                 placeholder = { Text("아이디", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onSurfaceVariant),
+                    .background(MaterialTheme.colorScheme.background),
                 textStyle = MaterialTheme.typography.bodyLarge
             )
             Spacer(modifier = Modifier.height(6.dp))
@@ -169,8 +169,14 @@ fun SignUpIdScreen(
                 style = MaterialTheme.typography.labelSmall
             )
         }
-        Button(onClick = onNext, modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onSurfaceVariant)) {
+        Button(onClick = onNext, modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(4.dp)
+            ),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)) {
             Text("다음", color = MaterialTheme.colorScheme.onBackground)
         }
     }
@@ -231,7 +237,7 @@ fun SignUpPwScreen(
                 ),
             shape = RoundedCornerShape(4.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)) {
-            Text("회원가입 완료", color = MaterialTheme.colorScheme.onSurface)
+            Text("다음", color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
@@ -252,7 +258,7 @@ fun SignUpNickname(
         Column() {
             Text(
                 "닉네임을 입력해주세요.",
-                color = MaterialTheme.colorScheme.onBackground,
+                color = Color.White,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -265,7 +271,9 @@ fun SignUpNickname(
                 placeholder = { Text("닉네임", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                 modifier = Modifier
                     .fillMaxWidth(),
-                textStyle = MaterialTheme.typography.bodyLarge
+                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -279,7 +287,7 @@ fun SignUpNickname(
                 ),
             shape = RoundedCornerShape(4.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)) {
-            Text("회원가입 완료", color = MaterialTheme.colorScheme.onSurface)
+            Text("회원가입 완료", color = MaterialTheme.colorScheme.onBackground)
         }
     }
 
