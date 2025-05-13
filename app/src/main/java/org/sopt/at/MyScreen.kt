@@ -106,7 +106,9 @@ fun Profile(nickname: String, navController: NavController) {
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("changeNickname")
+                },
                 modifier = Modifier
                     .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4.dp))
                     .height(35.dp)

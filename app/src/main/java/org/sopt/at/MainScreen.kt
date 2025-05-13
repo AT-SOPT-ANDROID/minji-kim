@@ -1,5 +1,6 @@
 package org.sopt.at
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -35,6 +36,9 @@ fun MainScreen(nickname: String) {
             composable("history") { HistoryScreen() }
             composable("my") {
                 MyScreen(navController = navController, viewModel = viewModel())
+            }
+            composable("changeNickname") {
+                NicknameScreen(navController = navController)
             }
             }
 
