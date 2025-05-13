@@ -3,4 +3,12 @@
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_bottom_nav_bar">BottomNavBar</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_bottom_nav_item">BottomNavItem</string>
+    <string name="title_activity_shorts_screen">ShortsScreen</string>
+    <string name="title_activity_live_screen">LiveScreen</string>
+    <string name="title_activity_search_screen">SearchScreen</string>
+    <string name="title_activity_history_screen">HistoryScreen</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
 </resources>
