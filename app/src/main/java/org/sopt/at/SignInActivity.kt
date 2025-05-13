@@ -170,10 +170,7 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
 
         Button(
             onClick = {
-                val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("nickname", nickname)
-                context.startActivity(intent)
-                if (context is Activity) context.finish()
+                signInViewModel.signIn(context)
             },
             modifier = Modifier
                 .fillMaxWidth()

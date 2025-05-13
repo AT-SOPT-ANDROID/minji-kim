@@ -45,13 +45,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
+import org.sopt.at.viewmodel.MyViewModel
 
 
 @Composable
-fun MyScreen(navController: NavController, nickname: String) {
+fun MyScreen(navController: NavController, viewModel: MyViewModel = viewModel()) {
     val context = LocalContext.current
-
-    Profile(nickname = nickname, navController = navController)
+    LaunchedEffect(Unit) {
+        viewModel.fetchNickname(context)
+    }
+    Profile(nickname = viewModel.nickname, navController = navController)
 }
 
 

@@ -34,7 +34,7 @@ fun MainScreen(nickname: String) {
             composable("search") { SearchScreen() }
             composable("history") { HistoryScreen() }
             composable("my") {
-                MyScreen(navController = navController, nickname = nickname)
+                MyScreen(navController = navController, viewModel = viewModel())
             }
             }
 

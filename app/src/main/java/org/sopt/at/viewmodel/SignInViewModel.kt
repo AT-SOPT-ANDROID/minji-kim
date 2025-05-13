@@ -25,7 +25,7 @@ class SignInViewModel : ViewModel() {
     var loginSuccess by mutableStateOf(false)
 
 
-    fun signIn(context: Context, nickname: String) {
+    fun signIn(context: Context) {
         val request = SignInRequest(loginId, loginPw)
 
         RetrofitInstance.authService.signIn(request)
@@ -38,7 +38,6 @@ class SignInViewModel : ViewModel() {
                             prefs.edit().putInt("userId", userId).apply()
 
                             val intent = Intent(context, MainActivity::class.java)
-                            intent.putExtra("nickname", nickname)
                             context.startActivity(intent)
                             if (context is Activity) context.finish()
                         }

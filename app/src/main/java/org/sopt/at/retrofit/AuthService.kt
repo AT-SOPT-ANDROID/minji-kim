@@ -19,6 +19,6 @@ interface AuthService {
     fun signIn(@Body request: SignInRequest): Call<SignInResponse>
 
     @GET("/api/v1/users/me")
-    fun getUserInfo(): Call<UserInfoResponse>
+    fun getUserInfo(@Header("userId") userId: Long) : Call<UserInfoResponse>
 
 }

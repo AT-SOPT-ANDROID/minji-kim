@@ -110,7 +110,6 @@ class SignUpViewModel : ViewModel() {
                             if (body?.success == true) {
                                 Toast.makeText(context, "회원가입 성공!", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(context, SignInActivity::class.java)
-                                intent.putExtra("nickname", nickName)
                                 context.startActivity(intent)
                             } else {
                                 Toast.makeText(
