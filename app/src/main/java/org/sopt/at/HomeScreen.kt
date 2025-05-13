@@ -30,6 +30,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Modifier
@@ -44,24 +46,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import org.sopt.at.model.Top20
 import org.sopt.at.screen.ui.theme.ATSOPTANDROIDTheme
+
 import org.sopt.at.viewmodel.HomeViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavController,) {
-    val context = LocalContext.current
+fun HomeScreen(viewModel: HomeViewModel = viewModel(), navController: NavController) {
     
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .background(Color.Black)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = 12.dp)
                 .align(Alignment.TopCenter),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -96,17 +98,20 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 56.dp)
-                .background(Color.Black)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             stickyHeader {
                 Row {
                     viewModel.genres.forEach {genre ->
                         Text(
                             text = genre,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = if (genre == viewModel.selectedGenre)
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
-                                .clickable { viewModel.onGenreSelected(genre)}
-                                .padding(8.dp),
-                            color = if (genre == viewModel.selectedGenre) Color.Red else Color.White
+                                .clickable { viewModel.onGenreSelected(genre) }
                         )
                     }
                 }
@@ -119,7 +124,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                 ) {
-                    items(viewModel.currentContents ?: emptyList()) { imageId ->
+                    items(viewModel.currentContents) { imageId ->
                         Image(
                             painter = painterResource(id = imageId),
                             contentDescription = null,
@@ -136,8 +141,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
                 Spacer(modifier = Modifier.height(18.dp))
                 Text(
                     text = "오늘의 티빙 TOP 20",
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -150,8 +155,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "지금 방영 중인 콘텐츠",
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -164,7 +169,61 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel(),navController: NavControll
     }
 }
 
+
 @Composable
+fun TodayTop(topList: List<Top20>) {
+
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 15.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(topList) { topItem ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(0.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    text = topItem.rank.toString(),
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontWeight = FontWeight.Bold
+                )
+                Image(
+                    painter = painterResource(id = topItem.imageId),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(142.dp)
+                        .width(104.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ContentsNow(contentsList: List<Int>) {
+
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 15.dp),
+        horizontalArrangement = Arrangement.spacedBy(9.dp),
+    ) {
+        items(contentsList) { contentId ->
+            Image(
+                painter = painterResource(id = contentId),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(102.dp)
+                    .clip(RoundedCornerShape(3.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+        }
+    }
+}
+
+/*@Composable
 fun Genre(genres: List<String>) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 1.dp),
@@ -200,59 +259,6 @@ fun Banner(banners: List<Int>) {
             )
         }
     }
-}
-
-@Composable
-fun TodayTop(topList: List<Top20>) {
-
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 15.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(topList) { topItem ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(0.dp),
-                verticalAlignment = Alignment.Bottom
-            ) {
-                Text(
-                    text = topItem.rank.toString(),
-                    fontSize = 65.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                    )
-                Image(
-                    painter = painterResource(id = topItem.imageId),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(142.dp)
-                        .width(104.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun ContentsNow(contentsList: List<Int>) {
-
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 15.dp),
-        horizontalArrangement = Arrangement.spacedBy(9.dp),
-    ) {
-        items(contentsList) { contentId ->
-            Image(
-                painter = painterResource(id = contentId),
-                contentDescription = null,
-                modifier = Modifier
-                    .height(150.dp)
-                    .width(102.dp)
-                    .clip(RoundedCornerShape(3.dp)),
-                contentScale = ContentScale.Crop
-            )
-
-        }
-    }
-}
+}*/
 
 

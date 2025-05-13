@@ -36,6 +36,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -53,7 +54,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.at.ui.theme.ATSOPTANDROIDTheme
+import org.sopt.at.viewmodel.SignInViewModel
 
 class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,37 +64,39 @@ class SignInActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ATSOPTANDROIDTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Tving(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val viewModel: SignInViewModel = viewModel()
+                Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
+                    Tving(viewModel = viewModel, modifier = Modifier.padding(padding))
                 }
             }
         }
     }
 }
 
-@Composable
-fun Tving(name: String, modifier: Modifier = Modifier) {
-    var signUpId by remember { mutableStateOf("")}
-    var signUpPw by remember { mutableStateOf("")}
-    var loginId by remember { mutableStateOf("")}
-    var loginPw by remember { mutableStateOf("")}
 
-    var pwVisible by remember { mutableStateOf(false) }
+@Composable
+fun Tving(viewModel: SignInViewModel = viewModel(), modifier: Modifier) {
     val context = LocalContext.current
+    val loginId = viewModel.loginId
+    val loginPw = viewModel.loginPw
+    val loginSuccess = viewModel.loginSuccess
+    var pwVisible by remember { mutableStateOf(false) }
+
     val signUpLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            signUpId = result.data?.getStringExtra("id") ?: ""
-            signUpPw = result.data?.getStringExtra("pw") ?: ""
-
+            viewModel.applySignUpResult(result.data)
             Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
         }
     }
-
+    LaunchedEffect(loginSuccess) {
+        if (loginSuccess) {
+            val intent = Intent(context, MyActivity::class.java)
+            intent.putExtra("id", loginId)
+            context.startActivity(intent)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -125,84 +130,51 @@ fun Tving(name: String, modifier: Modifier = Modifier) {
 
         TextField(
             value = loginId,
-            onValueChange = {loginId = it},
-            modifier = Modifier
-                .fillMaxWidth(),
-            placeholder = {Text("아이디",
-                color = Color(0xFFAAAAAA))},
+            onValueChange = { viewModel.loginId = it },
+            placeholder = { Text("아이디", color = Color(0xFFAAAAAA)) },
+            modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2C2C2C),
                 unfocusedContainerColor = Color(0xFF2C2C2C),
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-            ),
-            shape = RoundedCornerShape(4.dp)
+            )
         )
         Spacer(modifier = Modifier.height(13.dp))
         TextField(
             value = loginPw,
-            onValueChange = {loginPw = it},
-            modifier = Modifier
-                .fillMaxWidth(),
-            placeholder = {Text("비밀번호",
-                color = Color(0xFFAAAAAA))},
-            visualTransformation = if (pwVisible) {
-                VisualTransformation.None
-            } else{
-                PasswordVisualTransformation()
-            },
+            onValueChange = { viewModel.loginPw = it },
+            visualTransformation = if (pwVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
-                val icon = if (pwVisible) {
-                    Icons.Filled.Visibility
-                } else {
-                    Icons.Filled.VisibilityOff
-                }
-                IconButton(onClick = {
-                    pwVisible = !pwVisible
-                }) {
-                    Icon(imageVector = icon,
-                        contentDescription = null,
-                        tint = Color.LightGray)
+                val icon = if (pwVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                IconButton(onClick = { pwVisible = !pwVisible }) {
+                    Icon(imageVector = icon, contentDescription = null, tint = Color.LightGray)
                 }
             },
+            placeholder = { Text("비밀번호", color = Color(0xFFAAAAAA)) },
+            modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.LightGray,
+                focusedContainerColor = Color(0xFF2C2C2C),
+                unfocusedContainerColor = Color(0xFF2C2C2C),
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color(0xFF2C2C2C),
-                unfocusedContainerColor = Color(0xFF2C2C2C)
-            ),
-            shape = RoundedCornerShape(4.dp)
-
+            )
         )
 
         Spacer(modifier = Modifier.height(22.dp))
 
         Button(
-            onClick = {
-                if (loginId == signUpId && loginPw == signUpPw) {
-                    val intent = Intent(context, MyActivity::class.java)
-                    intent.putExtra("id", loginId)
-                    context.startActivity(intent)
-                } else {
-                    Toast.makeText(context, "회원정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
-                }
-            },
+            onClick = { viewModel.checkLogin(context) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(46.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF444444)
-            ),
-            shape = RoundedCornerShape(4.dp)
-
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF444444))
         ) {
             Text("로그인하기", color = Color(0xFFAAAAAA))
-
         }
+
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -240,15 +212,10 @@ fun Tving(name: String, modifier: Modifier = Modifier) {
 
                 ))
             Spacer(modifier = Modifier.width(10.dp))
-            Text("회원가입",
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    color = Color.LightGray,
-                ),
-                modifier = Modifier.clickable {
-                    val intent = Intent(context, SignUpActivity::class.java)
-                    signUpLauncher.launch(intent)
-                })
+            Text("회원가입", color = Color.LightGray, modifier = Modifier.clickable {
+                val intent = Intent(context, SignUpActivity::class.java)
+                signUpLauncher.launch(intent)
+            })
         }
         Spacer(modifier = Modifier.height(25.dp))
 
@@ -285,13 +252,5 @@ fun Tving(name: String, modifier: Modifier = Modifier) {
             )
 
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview2() {
-    ATSOPTANDROIDTheme {
-        Tving("Android")
     }
 }
