@@ -1,9 +1,9 @@
 package org.sopt.at.data.dto.request
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class NicknameChangeRequest(val nickname: String)
-
-data class BaseResponse(
-    val success: Boolean,
-    val code: String,
-    val message: String
+@Serializable
+data class NicknameChangeRequestDto(
+    @SerialName("nickname")
+    val nickname: String
 )
