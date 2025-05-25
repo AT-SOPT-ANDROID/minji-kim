@@ -1,17 +1,12 @@
 package org.sopt.at.data.dto.request
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+
+@Serializable
 data class SignInRequest(
+    @SerialName("loginId")
     val loginId: String,
+    @SerialName("password")
     val password: String,
-)
-
-data class SignInResponse(
-    val success: Boolean,
-    val code: String,
-    val message: String,
-    val data: SignInData?
-)
-
-data class SignInData(
-    val userId: Int,
 )
