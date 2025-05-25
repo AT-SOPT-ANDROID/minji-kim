@@ -7,7 +7,6 @@ import org.sopt.at.data.dto.response.SignInResponseDto
 import org.sopt.at.data.dto.response.SignUpResponseDto
 import org.sopt.at.data.dto.response.UserInfoResponseDto
 
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
