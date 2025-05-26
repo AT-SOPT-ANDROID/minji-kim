@@ -214,42 +214,4 @@ fun ContentsNow(contentsList: List<Int>) {
     }
 }
 
-/*@Composable
-fun Genre(genres: List<String>) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 1.dp),
-        horizontalArrangement = Arrangement.spacedBy(15.dp)
-    ) {
-        items(genres){ genre ->
-            Text(
-                text = genre,
-                fontSize = 17.sp,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-
-        }
-    }
-}
-@Composable
-fun Banner(banners: List<Int>) {
-
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(banners) { bannerId ->
-            Image(
-                painter = painterResource(id = bannerId),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillParentMaxWidth()
-                    .height(455.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
-}*/
-
 

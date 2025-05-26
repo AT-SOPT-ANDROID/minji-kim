@@ -1,9 +1,8 @@
-package org.sopt.at.data.api
+package org.sopt.at.data.service
 
 import org.sopt.at.data.dto.BaseResponse
 import org.sopt.at.data.dto.request.NicknameChangeRequestDto
 import org.sopt.at.data.dto.response.NicknameResponseDto
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header

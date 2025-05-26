@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import org.sopt.at.data.network.RetrofitInstance
 import org.sopt.at.data.dto.response.NicknameCheckResponse
 
-import org.sopt.at.data.dto.request.SignUpRequest
+import org.sopt.at.data.dto.request.SignUpRequestDto
 import org.sopt.at.data.dto.request.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -92,7 +92,7 @@ class SignUpViewModel : ViewModel() {
                 return@checkNickNameDuplication
             }
 
-            val request = SignUpRequest(id, pw, nickName)
+            val request = SignUpRequestDto(id, pw, nickName)
 
             RetrofitInstance.authService.signUp(request)
                 .enqueue(object : Callback<SignUpResponse> {

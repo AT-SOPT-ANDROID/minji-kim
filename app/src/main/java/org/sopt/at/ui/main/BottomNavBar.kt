@@ -10,7 +10,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 
-
 @Composable
 fun BottomNavBar(navController: NavController) {
     val items = listOf(
@@ -39,7 +38,6 @@ fun BottomNavBar(navController: NavController) {
                         restoreState = true
                     }
                 }
-
             )
         }
     }

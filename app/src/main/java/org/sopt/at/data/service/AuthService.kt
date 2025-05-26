@@ -1,8 +1,8 @@
-package org.sopt.at.data.api
+package org.sopt.at.data.service
 
 import org.sopt.at.data.dto.BaseResponse
-import org.sopt.at.data.dto.request.SignInRequest
-import org.sopt.at.data.dto.request.SignUpRequest
+import org.sopt.at.data.dto.request.SignInRequestDto
+import org.sopt.at.data.dto.request.SignUpRequestDto
 import org.sopt.at.data.dto.response.SignInResponseDto
 import org.sopt.at.data.dto.response.SignUpResponseDto
 import org.sopt.at.data.dto.response.UserInfoResponseDto
@@ -14,12 +14,12 @@ import retrofit2.http.POST
 
 interface AuthService {
     @POST("/api/v1/auth/signup")
-    fun signUp(@Body request: SignUpRequest): BaseResponse<SignUpResponseDto>
+    suspend fun signUp(@Body request: SignUpRequestDto): BaseResponse<SignUpResponseDto>
 
     @POST("/api/v1/auth/signin")
-    fun signIn(@Body request: SignInRequest): BaseResponse<SignInResponseDto>
+    suspend fun signIn(@Body request: SignInRequestDto): BaseResponse<SignInResponseDto>
 
     @GET("/api/v1/users/me")
-    fun getUserInfo(@Header("userId") userId: Long) : BaseResponse<UserInfoResponseDto>
+    suspend fun getUserInfo(@Header("userId") userId: Long) : BaseResponse<UserInfoResponseDto>
 
 }

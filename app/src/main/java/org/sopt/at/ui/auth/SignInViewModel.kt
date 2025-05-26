@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import org.sopt.at.data.dto.request.SignInRequest
+import org.sopt.at.data.dto.request.SignInRequestDto
 import org.sopt.at.data.dto.request.SignInResponse
 import org.sopt.at.data.network.RetrofitInstance
 import org.sopt.at.ui.main.MainActivity
@@ -23,7 +23,7 @@ class SignInViewModel : ViewModel() {
 
 
     fun signIn(context: Context) {
-        val request = SignInRequest(loginId, loginPw)
+        val request = SignInRequestDto(loginId, loginPw)
 
         RetrofitInstance.authService.signIn(request)
             .enqueue(object : Callback<SignInResponse> {

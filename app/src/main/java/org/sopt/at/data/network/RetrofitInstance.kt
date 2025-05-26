@@ -1,8 +1,8 @@
 package org.sopt.at.data.network
 
 import org.sopt.at.BuildConfig
-import org.sopt.at.data.api.AuthService
-import org.sopt.at.data.api.UserService
+import org.sopt.at.data.service.AuthService
+import org.sopt.at.data.service.UserService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
