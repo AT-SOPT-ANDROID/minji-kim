@@ -1,4 +1,4 @@
-package org.sopt.at.presentation.screen
+package org.sopt.at.presentation.main
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,13 +13,12 @@ import org.sopt.at.presentation.screen.home.HomeScreen
 import org.sopt.at.presentation.screen.live.LiveScreen
 import org.sopt.at.presentation.screen.my.MyScreen
 import org.sopt.at.presentation.screen.nickname.NicknameScreen
-import org.sopt.at.presentation.main.BottomNavBar
 import org.sopt.at.presentation.screen.search.SearchScreen
 import org.sopt.at.presentation.screen.shorts.ShortsScreen
 
 
 @Composable
-fun MainScreen(nickname: String) {
+fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }

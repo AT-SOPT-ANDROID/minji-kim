@@ -2,10 +2,6 @@ package org.sopt.at.presentation.screen.signIn
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -47,51 +42,27 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import org.sopt.at.ATSOPTANDROIDTheme
-import org.sopt.at.presentation.screen.signUp.SignUpActivity
 import org.sopt.at.presentation.screen.signUp.SignUpViewModel
-
-class SignInActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ATSOPTANDROIDTheme {
-                val signInViewModel: SignInViewModel = viewModel()
-                val signUpViewModel: SignUpViewModel = viewModel()
-                val navController = rememberNavController()
-                val nickname = intent.getStringExtra("nickname") ?: "티빙"
-                Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                    Tving(signInViewModel = signInViewModel,
-                        signUpViewModel = signUpViewModel,
-                        navController = navController,
-                        nickname= nickname,
-                        modifier = Modifier.padding(padding))
-                }
-            }
-        }
-    }
-}
 
 
 @Composable
-fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignUpViewModel = viewModel(), navController: NavController, nickname: String, modifier: Modifier) {
-    val context = LocalContext.current
+fun SignInScreen(
+    signInViewModel: SignInViewModel = hiltViewModel(),
+    onNavigateToSignUp: () -> Unit,
+    onSignInSuccess: () -> Unit
+) {
     val loginId = signInViewModel.loginId
     val loginPw = signInViewModel.loginPw
     val loginSuccess = signInViewModel.loginSuccess
     var pwVisible by remember { mutableStateOf(false) }
-    val nickName = signUpViewModel.nickName
 
     LaunchedEffect(loginSuccess) {
         if (loginSuccess) {
-            navController.navigate("my/${Uri.encode(nickName)}")
+            onSignInSuccess()
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -110,7 +81,6 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
             tint = Color.White,
 
         )
-
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(
@@ -137,6 +107,7 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
             )
         )
         Spacer(modifier = Modifier.height(13.dp))
+
         TextField(
             value = loginPw,
             onValueChange = { signInViewModel.loginPw = it },
@@ -157,12 +128,11 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
                 unfocusedIndicatorColor = Color.Transparent,
             )
         )
-
         Spacer(modifier = Modifier.height(22.dp))
 
         Button(
             onClick = {
-                signInViewModel.signIn(context)
+                signInViewModel.signIn()
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -171,8 +141,6 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
         ) {
             Text("로그인하기", color = Color(0xFFAAAAAA))
         }
-
-
         Spacer(modifier = Modifier.height(32.dp))
 
         Row(
@@ -210,7 +178,7 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
                 ))
             Spacer(modifier = Modifier.width(10.dp))
             Text("회원가입", color = Color.LightGray, modifier = Modifier.clickable {
-                context.startActivity(Intent(context, SignUpActivity::class.java))
+                onNavigateToSignUp()
             })
         }
         Spacer(modifier = Modifier.height(25.dp))
@@ -244,9 +212,7 @@ fun Tving(signInViewModel: SignInViewModel = viewModel(), signUpViewModel: SignU
                 },
                 color = Color.Gray,
                 fontSize = 11.sp,
-
             )
-
         }
     }
 }

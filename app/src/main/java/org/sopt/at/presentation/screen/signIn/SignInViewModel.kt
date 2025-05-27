@@ -28,10 +28,14 @@ class SignInViewModel  @Inject constructor(
     var loginResult by mutableStateOf<Result<UserEntity>?>(null)
         private set
 
+    var loginSuccess by mutableStateOf(false)
+        private set
+
     fun signIn() {
         viewModelScope.launch {
             val request = SignInRequestDto(loginId, loginPw)
             loginResult = userRepository.signIn(request)
+            loginSuccess = loginResult?.isSuccess == true
         }
     }
 }

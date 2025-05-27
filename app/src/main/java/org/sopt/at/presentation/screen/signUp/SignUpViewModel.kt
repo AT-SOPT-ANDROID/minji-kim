@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.sopt.at.data.dto.request.SignUpRequestDto
 import org.sopt.at.domain.model.UserEntity
@@ -24,7 +25,6 @@ class SignUpViewModel @Inject constructor(
     var isPwError by mutableStateOf(false)
     var isNickNameError by mutableStateOf(false)
     var pwVisible by mutableStateOf(false)
-    var screenState by mutableStateOf(SignUpScreenState.ID)
     var signUpResult by mutableStateOf<Result<UserEntity>?>(null)
         private set
 
@@ -54,14 +54,6 @@ class SignUpViewModel @Inject constructor(
         return char in '가'..'힣'
     }
 
-    fun goToPwScreen() {
-        if (validateId()) screenState = SignUpScreenState.PASSWORD
-    }
-
-    fun goToNickName() {
-        if (validatePw()) screenState = SignUpScreenState.NICKNAME
-    }
-
     fun finishSignUp(context: Context) {
         if (!validateNickName()) {
             return
@@ -71,8 +63,4 @@ class SignUpViewModel @Inject constructor(
             signUpResult = userRepository.signUp(request)
         }
     }
-}
-
-enum class SignUpScreenState {
-    ID, PASSWORD, NICKNAME
 }
