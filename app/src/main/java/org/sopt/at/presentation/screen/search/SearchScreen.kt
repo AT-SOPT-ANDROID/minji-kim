@@ -19,10 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import org.sopt.at.presentation.screen.my.MyViewModel
 
 @Composable
-fun SearchScreen(viewModel: SearchViewModel = viewModel()) {
-    var input by remember { mutableStateOf("")}
+fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
+    val input = viewModel.input
+    val nicknameList = viewModel.nicknameList
 
     Column(
         modifier = Modifier
@@ -31,10 +35,7 @@ fun SearchScreen(viewModel: SearchViewModel = viewModel()) {
     ){
         OutlinedTextField(
             value = input,
-            onValueChange = {
-                input = it
-                viewModel.searchNickname(it)
-            },
+            onValueChange = viewModel::onInputChange,
             label = {Text("닉네임 검색")},
             modifier = Modifier.fillMaxWidth()
         )
@@ -43,7 +44,7 @@ fun SearchScreen(viewModel: SearchViewModel = viewModel()) {
         LazyColumn(
             modifier = Modifier.fillMaxHeight()
         ) {
-            items(viewModel.nicknameList) { name ->
+            items(nicknameList) { name ->
                 Text(
                     text = name,
                     modifier = Modifier

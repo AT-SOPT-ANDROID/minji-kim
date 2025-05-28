@@ -20,6 +20,6 @@ interface AuthService {
     suspend fun signIn(@Body request: SignInRequestDto): BaseResponse<SignInResponseDto>
 
     @GET("/api/v1/users/me")
-    suspend fun getUserInfo(@Header("userId") userId: Long) : BaseResponse<UserInfoResponseDto>
+    suspend fun getUser(@Header("userId") userId: Long) : BaseResponse<UserInfoResponseDto>
 
 }

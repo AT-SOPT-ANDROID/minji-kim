@@ -36,25 +36,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import org.sopt.at.R
-import org.sopt.at.presentation.screen.signIn.SignInActivity
 
 
 @Composable
-fun MyScreen(navController: NavController, viewModel: MyViewModel = viewModel()) {
-    val context = LocalContext.current
+fun MyScreen(navController: NavController, viewModel: MyViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) {
-        viewModel.fetchNickname(context)
+        viewModel.fetchNickname()
     }
+
     Profile(nickname = viewModel.nickname, navController = navController)
 }
 
 
 @Composable
 fun Profile(nickname: String, navController: NavController) {
-    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -229,8 +229,9 @@ fun Profile(nickname: String, navController: NavController) {
         }
         Button(
             onClick ={
-                val intent = Intent(context, SignInActivity::class.java)
-                context.startActivity(intent)
+                navController.navigate("signin") {
+                    popUpTo("my") { inclusive = true }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

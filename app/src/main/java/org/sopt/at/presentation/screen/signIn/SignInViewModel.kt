@@ -9,8 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.at.data.dto.request.SignInRequestDto
+import org.sopt.at.data.local.UserPreferences
 import org.sopt.at.domain.model.UserEntity
 import org.sopt.at.domain.repository.UserRepository
 import org.sopt.at.presentation.main.MainActivity
@@ -19,8 +21,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+@HiltViewModel
 class SignInViewModel  @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val userPreferences: UserPreferences
 ): ViewModel() {
 
     var loginId by mutableStateOf("")
@@ -35,7 +39,15 @@ class SignInViewModel  @Inject constructor(
         viewModelScope.launch {
             val request = SignInRequestDto(loginId, loginPw)
             loginResult = userRepository.signIn(request)
-            loginSuccess = loginResult?.isSuccess == true
+            if (loginResult?.isSuccess == true) {
+                val userId = loginResult?.getOrNull()?.userId
+                if (userId != null) {
+                    userPreferences.saveUserId(userId)
+                }
+                loginSuccess = true
+            } else {
+                loginSuccess = false
+            }
         }
     }
 }

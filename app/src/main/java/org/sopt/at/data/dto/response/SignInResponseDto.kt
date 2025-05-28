@@ -9,11 +9,4 @@ import org.sopt.at.domain.model.UserEntity
 data class SignInResponseDto(
     @SerialName("userId")
     val userId: Int
-) {
-    fun SignInResponseDto.toEntity(): UserEntity {
-        return UserEntity(
-            userId = userId,
-            nickname = null
-        )
-    }
-}
+)

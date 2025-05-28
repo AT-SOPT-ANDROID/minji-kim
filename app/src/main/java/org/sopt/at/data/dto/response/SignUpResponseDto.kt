@@ -10,11 +10,4 @@ data class SignUpResponseDto(
     val userId: Int,
     @SerialName("nickname")
     val nickname: String
-) {
-    fun SignUpResponseDto.toEntity(): UserEntity {
-        return UserEntity(
-            userId = userId,
-            nickname = nickname
-        )
-    }
-}
+)

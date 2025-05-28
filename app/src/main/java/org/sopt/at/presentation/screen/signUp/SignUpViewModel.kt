@@ -6,12 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.at.data.dto.request.SignUpRequestDto
 import org.sopt.at.domain.model.UserEntity
 import org.sopt.at.domain.repository.UserRepository
 import javax.inject.Inject
 
+@HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
@@ -59,7 +61,10 @@ class SignUpViewModel @Inject constructor(
         }
         viewModelScope.launch {
             val request = SignUpRequestDto(id, pw, nickName)
-            signUpResult = userRepository.signUp(request)
+            val result = userRepository.signUp(request)
+            println("✅ 회원가입 결과: $result")
+            signUpResult = result
+
         }
     }
 }

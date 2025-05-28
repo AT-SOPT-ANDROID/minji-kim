@@ -22,8 +22,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-// ✅ 올바른 import
-
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,57 +37,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.at.ATSOPTANDROIDTheme
 
 
-@Composable
-fun SignUp(viewModel: SignUpViewModel = viewModel(), modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-
-    when (viewModel.screenState) {
-        SignUpScreenState.ID -> {
-            SignUpIdScreen(
-                id = viewModel.id,
-                isError = viewModel.isIdError,
-                onIdChange = { viewModel.id = it },
-                onNext = {
-                    if (!viewModel.validateId()) {
-                        Toast.makeText(context, "아이디 조건에 맞지 않습니다.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        viewModel.goToPwScreen()
-                    }
-                }
-            )
-        }
-        SignUpScreenState.PASSWORD -> {
-            SignUpPwScreen(
-                pw = viewModel.pw,
-                isError = viewModel.isPwError,
-                pwVisible = viewModel.pwVisible,
-                onPwChange = { viewModel.pw = it },
-                onTogglePwVisible = { viewModel.pwVisible = !viewModel.pwVisible },
-                onNext2 = {
-                    if (!viewModel.validatePw()) {
-                        Toast.makeText(context, "비밀번호 조건에 맞지 않습니다.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        viewModel.goToNickName()
-                    }
-                }
-            )
-        }
-        SignUpScreenState.NICKNAME -> {
-            SignUpNickname(
-                nickName = viewModel.nickName,
-                isError = viewModel.isNickNameError,
-                onNickNameChange = { viewModel.nickName = it },
-                onComplete = {
-                    if (!viewModel.validateNickName()) {
-                        Toast.makeText(context, "닉네임 조건에 맞지 않습니다.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        viewModel.finishSignUp(context)
-                    }
-                }
-            )
-        }
-    }
-}
 
 @Composable
 fun SignUpIdScreen(
@@ -205,7 +152,7 @@ fun SignUpPwScreen(
     }
 }
 @Composable
-fun SignUpNickname(
+fun SignUpNicknameScreen(
     nickName: String,
     isError: Boolean,
     onNickNameChange: (String) -> Unit,

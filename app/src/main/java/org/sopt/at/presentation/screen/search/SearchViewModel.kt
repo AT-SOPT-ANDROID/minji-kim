@@ -4,32 +4,45 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import org.sopt.at.data.dto.response.NicknameCheckResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.at.domain.repository.UserRepository
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
+
+    var input by mutableStateOf("")
+        private set
+
     var nicknameList by mutableStateOf<List<String>>(emptyList())
         private set
 
-    fun searchNickname(keyword: String) {
-        RetrofitInstance.userService.checkNickname(keyword)
-            .enqueue(object : Callback<NicknameCheckResponse> {
-                override fun onResponse(
-                    call: Call<NicknameCheckResponse>,
-                    response: Response<NicknameCheckResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        nicknameList = response.body()?.data?.nicknameList ?: emptyList()
-                    } else {
-                        nicknameList = listOf("불러오기 실패")
-                    }
-                }
+    var errorMessage by mutableStateOf<String?>(null)
+        private set
 
-                override fun onFailure(call: Call<NicknameCheckResponse>, t: Throwable) {
-                    nicknameList = listOf("네트워크 오류")
-                }
-            })
+    fun onInputChange(newInput: String) {
+        input = newInput
+        viewModelScope.launch {
+            searchNickname(newInput)
+        }
     }
+
+    fun searchNickname(keyword: String) {
+        viewModelScope.launch {
+            val result = userRepository.getNicknames(keyword)
+            if (result.isSuccess) {
+                val dto = result.getOrNull()
+                nicknameList = dto?.nicknameList ?: emptyList()
+                errorMessage = null
+            } else {
+                nicknameList = emptyList()
+                errorMessage = result.exceptionOrNull()?.message
+            }
+        }
+    }
+
 }

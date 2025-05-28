@@ -14,20 +14,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import org.sopt.at.presentation.screen.my.NicknameChangeViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun NicknameScreen(
     navController: NavController,
     viewModel: NicknameChangeViewModel = viewModel()
 ) {
-    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val nickname = viewModel.newNickname
     val isLoading = viewModel.isLoading
     val errorMessage = viewModel.errorMessage
@@ -42,9 +43,7 @@ fun NicknameScreen(
 
         OutlinedTextField(
             value = nickname,
-            onValueChange = {
-                viewModel.newNickname = it
-            },
+            onValueChange = viewModel::onNicknameChange,
             label = {Text("새 닉네임")},
             modifier = Modifier.fillMaxWidth()
         )
@@ -57,8 +56,10 @@ fun NicknameScreen(
 
         Button(
             onClick = {
-                viewModel.changeNickname(context) {
-                    navController.popBackStack()
+                scope.launch {
+                    viewModel.changeNickname {
+                        navController.popBackStack()
+                    }
                 }
             },
             enabled = !isLoading,

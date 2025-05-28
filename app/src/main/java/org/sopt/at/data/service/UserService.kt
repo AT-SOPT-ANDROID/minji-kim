@@ -10,13 +10,13 @@ import retrofit2.http.PATCH
 import retrofit2.http.Query
 
 interface UserService {
-    @GET("/api/v1/users")
-    fun checkNickname(@Query("keyword") nickname: String): BaseResponse<NicknameResponseDto>
+    @GET("/api/v1/users/ni")
+    fun getNicknameList(@Query("keyword") keyword: String): BaseResponse<NicknameResponseDto>
 
     @PATCH("/api/v1/users")
-    fun updateNickname(
+    fun changeNickname(
         @Header("userId") userId: Long,
         @Body request: NicknameChangeRequestDto
-    ): BaseResponse<NicknameResponseDto>
+    ): BaseResponse<Unit>
 
 }

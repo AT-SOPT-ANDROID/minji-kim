@@ -1,38 +1,38 @@
 package org.sopt.at.presentation.screen.my
 
-import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import org.sopt.at.data.dto.response.UserInfoResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.sopt.at.data.local.UserPreferences
+import org.sopt.at.domain.repository.UserRepository
+import javax.inject.Inject
 
-class MyViewModel : ViewModel() {
+@HiltViewModel
+class MyViewModel @Inject constructor(
+    private val userPreferences: UserPreferences,
+    private val userRepository: UserRepository
+): ViewModel() {
     var nickname by mutableStateOf("")
         private set
 
-    fun fetchNickname(context: Context) {
-        val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
-        val userId = prefs.getInt("userId", -1).toLong()
+    fun fetchNickname() {
+        viewModelScope.launch {
+            val userId = userPreferences.userIdFlow.first()
+            Log.d("MyViewModel", "🔍 userId = $userId")
 
-        RetrofitInstance.authService.getUserInfo(userId)
-            .enqueue(object : Callback<UserInfoResponse> {
-                override fun onResponse(
-                    call: Call<UserInfoResponse>,
-                    response: Response<UserInfoResponse>
-                ) {
-                    nickname = if (response.isSuccessful) {
-                        response.body()?.data?.nickname ?: "알 수 없음"
-                    } else {
-                        "불러오기 실패"
-                    } }
-
-                override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
-                    nickname = "네트워크 오류"
-                }
-            })
+            if (userId == -1L) {
+                nickname = "유저 정보 없음"
+                return@launch
+            }
+            val result = userRepository.getUser(userId.toLong())
+            nickname = result.getOrNull()?.nickname ?: "불러오기 실패"
+            Log.d("MyViewModel", "🎯 유저 닉네임 = ${result.getOrNull()?.nickname}")
+        }
     }
 }
