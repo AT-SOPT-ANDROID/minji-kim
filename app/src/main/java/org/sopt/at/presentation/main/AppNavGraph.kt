@@ -7,13 +7,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import org.sopt.at.presentation.screen.history.HistoryScreen
-import org.sopt.at.presentation.screen.home.HomeScreen
-import org.sopt.at.presentation.screen.live.LiveScreen
-import org.sopt.at.presentation.screen.my.MyScreen
-import org.sopt.at.presentation.screen.nickname.NicknameScreen
-import org.sopt.at.presentation.screen.search.SearchScreen
-import org.sopt.at.presentation.screen.shorts.ShortsScreen
 import org.sopt.at.presentation.screen.signIn.SignInScreen
 import org.sopt.at.presentation.screen.signUp.SignUpIdScreen
 import org.sopt.at.presentation.screen.signUp.SignUpNicknameScreen
@@ -26,7 +19,7 @@ fun AppNavGraph(navController: NavHostController, viewModel: SignUpViewModel = h
     NavHost(navController, startDestination = AppRoute.SignIn.route) {
 
         composable(AppRoute.Main.route) {
-            MainScreen(navController = navController)
+            MainScreen()
         }
 
         composable(AppRoute.SignIn.route) {
