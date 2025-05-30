@@ -29,12 +29,13 @@ class NicknameChangeViewModel @Inject constructor(
         newNickname = newValue
     }
 
-    suspend fun changeNickname(onSuccess: () -> Unit) {
+    suspend fun changeNickname(
+        onSuccess: () -> Unit
+    ) {
         isLoading = true
         errorMessage = null
 
         var userId = userPreferences.userIdFlow.first()
-        Log.d("MyViewModel", "🔍 userId = $userId")
         if (userId == -1L) {
             errorMessage = "유저 정보 없음"
             isLoading = false

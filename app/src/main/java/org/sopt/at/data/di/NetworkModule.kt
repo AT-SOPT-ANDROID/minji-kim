@@ -21,6 +21,10 @@ import dagger.Module
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
 
     @Provides
     @Singleton
@@ -46,10 +50,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideConverterFactory(): Converter.Factory =
-        Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-        }.asConverterFactory("application/json".toMediaType())
+        json.asConverterFactory("application/json".toMediaType())
 
     @Provides
     @Singleton

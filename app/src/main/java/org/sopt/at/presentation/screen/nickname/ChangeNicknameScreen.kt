@@ -19,14 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import org.sopt.at.presentation.screen.my.MyViewModel
 
 @Composable
 fun NicknameScreen(
     navController: NavController,
-    viewModel: NicknameChangeViewModel = viewModel()
+    viewModel: NicknameChangeViewModel = hiltViewModel(),
+    myViewModel: MyViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
     val nickname = viewModel.newNickname
@@ -57,9 +60,12 @@ fun NicknameScreen(
         Button(
             onClick = {
                 scope.launch {
-                    viewModel.changeNickname {
-                        navController.popBackStack()
-                    }
+                    viewModel.changeNickname(
+                        onSuccess = {
+                            myViewModel.fetchNickname()
+                            navController.popBackStack()
+                        }
+                    )
                 }
             },
             enabled = !isLoading,

@@ -24,7 +24,6 @@ class MyViewModel @Inject constructor(
     fun fetchNickname() {
         viewModelScope.launch {
             val userId = userPreferences.userIdFlow.first()
-            Log.d("MyViewModel", "🔍 userId = $userId")
 
             if (userId == -1L) {
                 nickname = "유저 정보 없음"
@@ -32,7 +31,6 @@ class MyViewModel @Inject constructor(
             }
             val result = userRepository.getUser(userId.toLong())
             nickname = result.getOrNull()?.nickname ?: "불러오기 실패"
-            Log.d("MyViewModel", "🎯 유저 닉네임 = ${result.getOrNull()?.nickname}")
         }
     }
 }

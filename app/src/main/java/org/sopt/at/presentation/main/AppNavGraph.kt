@@ -4,11 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import org.sopt.at.presentation.screen.history.HistoryScreen
 import org.sopt.at.presentation.screen.home.HomeScreen
 import org.sopt.at.presentation.screen.live.LiveScreen
@@ -18,7 +16,6 @@ import org.sopt.at.presentation.screen.search.SearchScreen
 import org.sopt.at.presentation.screen.shorts.ShortsScreen
 import org.sopt.at.presentation.screen.signIn.SignInScreen
 import org.sopt.at.presentation.screen.signUp.SignUpIdScreen
-
 import org.sopt.at.presentation.screen.signUp.SignUpNicknameScreen
 import org.sopt.at.presentation.screen.signUp.SignUpPwScreen
 import org.sopt.at.presentation.screen.signUp.SignUpViewModel
@@ -80,20 +77,6 @@ fun AppNavGraph(navController: NavHostController, viewModel: SignUpViewModel = h
                     viewModel.finishSignUp(context)
                 }
             )
-        }
-
-        composable("home") { HomeScreen(navController = navController) }
-        composable("shorts") { ShortsScreen() }
-        composable("live") { LiveScreen() }
-        composable("search") { SearchScreen() }
-        composable("history") { HistoryScreen() }
-
-        composable("my") {
-            MyScreen(navController = navController)
-        }
-
-        composable("changeNickname") {
-            NicknameScreen(navController = navController)
         }
     }
 }

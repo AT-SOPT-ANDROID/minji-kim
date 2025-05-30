@@ -19,13 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ATSOPTANDROIDTheme {
                 val navController = rememberNavController()
-                CompositionLocalProvider(
-                    LocalContext provides this,
-                    LocalLifecycleOwner provides this,
-                    LocalViewModelStoreOwner provides this
-                ) {
-                    AppNavGraph(navController = navController)
-                }
+                AppNavGraph(navController = navController)
             }
         }
     }
