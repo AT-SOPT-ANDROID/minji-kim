@@ -4,7 +4,6 @@ import kotlinx.serialization.json.JsonElement
 import org.sopt.at.data.dto.BaseResponse
 import org.sopt.at.data.dto.request.NicknameChangeRequestDto
 import org.sopt.at.data.dto.response.NicknameResponseDto
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header

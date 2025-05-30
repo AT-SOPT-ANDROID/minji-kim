@@ -49,7 +49,7 @@ class UserRepository @Inject constructor(
                 val nickname = response.data.nickname
                 Result.success(UserEntity(userId.toInt(),nickname))
             } else {
-                Result.failure(Throwable(response.message ?: "닉네임 불러오기 실패"))
+                Result.failure(Throwable(response.message ?: "해당 id의 유저를 찾을 수 없습니다"))
             }
         } catch (e: Exception ){
             Result.failure(e)
@@ -75,7 +75,7 @@ class UserRepository @Inject constructor(
             if (response.success && response.data != null) {
                 Result.success(response.data)
             } else {
-                Result.failure(Throwable(response.message ?: "닉네임 목록 불러오기 실패"))
+                Result.failure(Throwable(response.message ?: ""))
             }
         } catch(e: Exception) {
             Result.failure(e)

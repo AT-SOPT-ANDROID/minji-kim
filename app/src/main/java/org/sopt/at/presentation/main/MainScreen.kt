@@ -20,7 +20,7 @@ import org.sopt.at.presentation.screen.shorts.ShortsScreen
 
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }
@@ -35,11 +35,9 @@ fun MainScreen(navController: NavHostController) {
             composable("live") { LiveScreen() }
             composable("search") { SearchScreen() }
             composable("history") { HistoryScreen() }
-
             composable("my") {
                 MyScreen(navController = navController)
             }
-
             composable("changeNickname") {
                 NicknameScreen(navController = navController)
             }

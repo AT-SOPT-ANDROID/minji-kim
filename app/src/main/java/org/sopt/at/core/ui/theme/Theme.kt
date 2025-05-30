@@ -1,4 +1,4 @@
-package org.sopt.at
+package org.sopt.at.core.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
