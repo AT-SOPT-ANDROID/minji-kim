@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">AT SOPT ANDROID</string>
-    <string name="title_activity_sign_in">SignInActivity</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
-    <string name="title_activity_my">MyActivity</string>
     <string name="title_activity_bottom_nav_bar">BottomNavBar</string>
     <string name="title_activity_main_screen">MainScreen</string>
     <string name="title_activity_bottom_nav_item">BottomNavItem</string>
